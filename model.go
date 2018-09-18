@@ -797,8 +797,10 @@ func copyVal(dt reflect.Type, f reflect.Value, notraverse bool) (reflect.Value, 
 		nf   reflect.Value
 		errs []error
 	)
-
-	if conversionExists(f.Type(), dt) && !notraverse {
+	
+	//对于time.Time类型自定义Converter需要注释&& !notraverse，否则不会进入自定义Convert中
+	//if conversionExists(f.Type(), dt) && !notraverse {
+	if conversionExists(f.Type(), dt) {
 		// handle custom converters
 		res, err := converterMap[f.Type()][dt](f)
 		if err != nil {
